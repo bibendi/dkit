@@ -3,9 +3,14 @@ version: '2'
 services:
   nginx:
     image: jwilder/nginx-proxy
-    container_name: nginx-proxy
+    container_name: nginx
     restart: always
     ports:
       - "80:80"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
+    labels:
+      com.dnsdock.name: nginx
+      com.dnsdock.image: ""
+    depends_on:
+      - dnsdock

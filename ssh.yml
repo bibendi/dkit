@@ -3,6 +3,7 @@ version: '2'
 services:
   agent:
     image: whilp/ssh-agent
+    container_name: ssh-agent
     volumes:
       - data:/ssh
 
