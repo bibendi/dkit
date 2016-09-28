@@ -70,22 +70,41 @@ TODO
 
 по мотивам триллера https://github.com/nlf/dlite/pull/110/files
 
+Сделаем так, чтобы докер запускался на нужном нам IP адресе
 ```
-ssh docker@docker.local
+ssh docker@local.docker
+
 vi /etc/default/docker
-# add to DOCKER_ARGS: `--bip=172.17.0.1/24 --dns=172.17.0.1`
+# add to end of DOCKER_ARGS
+--bip=172.17.0.1/24 --dns=172.17.0.1
+# save :x
+
 exit
 dlite stop && dlite start
+```
 
+Добавим адрес ДНС сервера в систему
+```
+mkdir -p /etc/resolver
+
+sudo vi /etc/resolver/docker
+# paste
+nameserver 172.17.0.1
+# save :x
+
+# Restart system DNS
+sudo killall -HUP mDNSResponder
+```
+
+Переадресуем всю подсеть в докер (этот блок нужно выполнять после каждой перезагрузки системы)
+```
 sudo route -n add 172.17.0.0/8 local.docker
 DOCKER_INTERFACE=$(route get local.docker | grep interface: | cut -f 2 -d: | tr -d ' ')
 DOCKER_INTERFACE_MEMBERSHIP=$(ifconfig ${DOCKER_INTERFACE} | grep member: | cut -f 2 -d: | cut -c 2-4)
 sudo ifconfig "${DOCKER_INTERFACE}" -hostfilter "${DOCKER_INTERFACE_MEMBERSHIP}"
+```
 
-sudo vi /etc/resolver/docker
-# add: `nameserver 172.17.0.1`
-sudo killall -HUP mDNSResponder
-
-# check
+Check
+```
 ping docker
 ```
