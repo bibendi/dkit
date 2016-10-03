@@ -1,0 +1,6 @@
+/doc/
+/libs/
+/.crystal/
+/.shards/
+/dkit
+/dkit.yml

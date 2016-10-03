@@ -1,6 +1,0 @@
-#!/bin/bash
-set -e
-
-./bin/ssh up -d agent
-
-exec ./bin/ssh run --rm key

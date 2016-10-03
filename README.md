@@ -42,14 +42,27 @@ dlite start
 
 # dkit
 
-Набор docker-compose конфигов вспомогательного назначения для запуска проектов.
+CLI утилита вспомогательного назначения для запуска проектов.
+
+## Installation
+
+```
+curl -L https://github.com/abak-press/dkit/releases/download/0.1.0/dkit-`uname -s`-`uname -m` > /usr/local/bin/dkit
+chmod +x /usr/local/bin/dkit
+```
+
+## Usage
+
+```
+dkit --help
+```
 
 ## ssh-agent
 
 Необходим для установки приватных гемов.
 
 ```
-./bin/ssh-add
+dkit ssh add
 ```
 
 ## DNS
@@ -57,7 +70,7 @@ dlite start
 Поддержка dns зоны `.docker`
 
 ```
-./bin/dnsdock up -d
+dkit dns up
 ```
 
 ### Installation
@@ -106,5 +119,5 @@ sudo ifconfig "${DOCKER_INTERFACE}" -hostfilter "${DOCKER_INTERFACE_MEMBERSHIP}"
 
 Check
 ```
-ping docker
+ping dnsdock.docker
 ```
